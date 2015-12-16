@@ -4,7 +4,7 @@ session_start();
 include_once("config.php");
 
 //current URL of the Page. cart_update.php redirects back to this URL
-$current_url = urlencode($url="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+$current_url = urlencode($url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 
 ?>
 
@@ -22,43 +22,41 @@ $current_url = urlencode($url="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_
 
 <!-- View Cart Box Start -->
 <?php
-if(isset($_SESSION["cart_products"]) && count($_SESSION["cart_products"])>0)
-{
-	echo '<div class="cart-view-table-front" id="view-cart">';
-	echo '<h3>Cosul tau de cumparaturi...</h3>';
-	echo '<form method="post" action="cart_update.php">';
-	echo '<table width="100%"  cellpadding="6" cellspacing="0">';
-	echo '<tbody>';
+if (isset($_SESSION["cart_products"]) && count($_SESSION["cart_products"]) > 0) {
+    echo '<div class="cart-view-table-front" id="view-cart">';
+    echo '<h3>Cosul tau de cumparaturi...</h3>';
+    echo '<form method="post" action="cart_update.php">';
+    echo '<table width="100%"  cellpadding="6" cellspacing="0">';
+    echo '<tbody>';
 
-	$total =0;
-	$b = 0;
-	foreach ($_SESSION["cart_products"] as $cart_itm)
-	{
-		$product_name = $cart_itm["product_name"];
-		$product_qty = $cart_itm["product_qty"];
-		$product_price = $cart_itm["product_price"];
-		$product_code = $cart_itm["product_code"];
-		$product_color = $cart_itm["product_color"];
-		$bg_color = ($b++ % 2 == 1) ? 'odd' : 'even'; //zebra stripe
-		echo '<tr class="'.$bg_color.'">';
-		echo '<td>Nr. prod. <input type="text" size="2" maxlength="2" name="product_qty['.$product_code.']" value="'.$product_qty.'" /></td>';
-		echo '<td>'.$product_name.'</td>';
-		echo '<td><input type="checkbox" name="remove_code[]" value="'.$product_code.'" /> Sterge</td>';
-		echo '</tr>';
-		$subtotal = ($product_price * $product_qty);
-		$total = ($total + $subtotal);
-	}
-	echo '<td colspan="4">';
-	echo '<button type="submit">Update</button><a href="view_cart.php" class="button">Plateste</a>';
-	echo '</td>';
-	echo '</tbody>';
-	echo '</table>';
+    $total = 0;
+    $b     = 0;
+    foreach ($_SESSION["cart_products"] as $cart_itm) {
+        $product_name  = $cart_itm["product_name"];
+        $product_qty   = $cart_itm["product_qty"];
+        $product_price = $cart_itm["product_price"];
+        $product_code  = $cart_itm["product_code"];
+        $product_color = $cart_itm["product_color"];
+        $bg_color      = ($b++ % 2 == 1) ? 'odd' : 'even'; //zebra stripe
+        echo '<tr class="' . $bg_color . '">';
+        echo '<td>Nr. prod. <input type="text" size="2" maxlength="2" name="product_qty[' . $product_code . ']" value="' . $product_qty . '" /></td>';
+        echo '<td>' . $product_name . '</td>';
+        echo '<td><input type="checkbox" name="remove_code[]" value="' . $product_code . '" /> Sterge</td>';
+        echo '</tr>';
+        $subtotal = ($product_price * $product_qty);
+        $total    = ($total + $subtotal);
+    }
+    echo '<td colspan="4">';
+    echo '<button type="submit">Update</button><a href="view_cart.php" class="button">Plateste</a>';
+    echo '</td>';
+    echo '</tbody>';
+    echo '</table>';
 
-	$current_url = urlencode($url="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+    $current_url = urlencode($url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 
-	echo '<input type="hidden" name="return_url" value="'.$current_url.'" />';
-	echo '</form>';
-	echo '</div>';
+    echo '<input type="hidden" name="return_url" value="' . $current_url . '" />';
+    echo '</form>';
+    echo '</div>';
 }
 
 ?>
@@ -68,34 +66,34 @@ if(isset($_SESSION["cart_products"]) && count($_SESSION["cart_products"])>0)
 
 <?php
 
-	echo '<div class="categories-front" id="cat">';
-	echo '<h3>Categorii de produse...</h3>';
-	echo '<table width="100%"  cellpadding="6" cellspacing="0">';
-	echo '<tbody>';
+echo '<div class="categories-front" id="cat">';
+echo '<h3>Categorii de produse...</h3>';
+echo '<table width="100%"  cellpadding="6" cellspacing="0">';
+echo '<tbody>';
 
-	$mysql_fetch_categorii = $mysqli->prepare("SELECT category_name FROM categories WHERE 1");
-	@$mysql_fetch_categorii->bind_param('s', $new_categorie['nume_categorie']); //fix it..
-	$mysql_fetch_categorii->execute();
-	$mysql_fetch_categorii->bind_result($nume_categorie);
+$mysql_fetch_categorii = $mysqli->prepare("SELECT category_name FROM categories WHERE 1");
+//@$mysql_fetch_categorii->bind_param('s', $new_categorie['nume_categorie']); //fix it..
+$mysql_fetch_categorii->execute();
+$mysql_fetch_categorii->bind_result($nume_categorie);
 
-	$b = 0;
-	while($mysql_fetch_categorii->fetch()){
-		$bg_color = ($b++ % 2 == 1) ? 'odd' : 'even'; //zebra stripe
-		echo '<tr class="'.$bg_color.'">';
-		$str_lower = strtolower($nume_categorie);
-		$str_lower = substr_replace($str_lower, strtoupper(substr($str_lower, 0, 1)), 0, 1);
-		echo '<td><a href ="?categorie='.$nume_categorie.'">'.$str_lower.'</a></td>';
-		echo '</tr>';
-	}
+$b = 0;
+while ($mysql_fetch_categorii->fetch()) {
+    $bg_color = ($b++ % 2 == 1) ? 'odd' : 'even'; //zebra stripe
+    echo '<tr class="' . $bg_color . '">';
+    $str_lower = strtolower($nume_categorie);
+    $str_lower = substr_replace($str_lower, strtoupper(substr($str_lower, 0, 1)), 0, 1);
+    echo '<td><a href ="?categorie=' . $nume_categorie . '">' . $str_lower . '</a></td>';
+    echo '</tr>';
+}
 
-	echo '</tbody>';
-	echo '</table>';
+echo '</tbody>';
+echo '</table>';
 
-	$current_url = urlencode($url="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+$current_url = urlencode($url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 
-	echo '<input type="hidden" name="return_url" value="'.$current_url.'" />';
-	//echo '</form>';
-	echo '</div>';
+echo '<input type="hidden" name="return_url" value="' . $current_url . '" />';
+//echo '</form>';
+echo '</div>';
 
 ?>
 
@@ -105,20 +103,20 @@ if(isset($_SESSION["cart_products"]) && count($_SESSION["cart_products"])>0)
 <?php
 
 // implicit, se vor afisa toate datele din db.
-if(!isset($_GET['categorie'])) {
-	$_GET['categorie'] = "all";
+if (!isset($_GET['categorie'])) {
+    $_GET['categorie'] = "all";
 }
 
 $results = $mysqli->query("SELECT product_code, product_category, product_name, product_desc, product_img_name, price FROM products ORDER BY id ASC");
 
-if($results) {
-	if(isset($_GET['categorie']) and !empty($_GET['categorie'])) {
-		$selected_category = $_GET['categorie'];
-	$products_item = '<ul class="products">';
-	//fetch results set as object and output HTML
-	while($obj = $results->fetch_object()) {
-		if($selected_category == $obj->product_category || $selected_category == "all") {
-	$products_item .= <<<EOT
+if ($results) {
+    if (isset($_GET['categorie']) and !empty($_GET['categorie'])) {
+        $selected_category = $_GET['categorie'];
+        $products_item     = '<ul class="products">';
+        //fetch results set as object and output HTML
+        while ($obj = $results->fetch_object()) {
+            if ($selected_category == $obj->product_category || $selected_category == "all") {
+                $products_item .= <<<EOT
 	<li class="product">
 	<form method="post" action="cart_update.php">
 	<div class="product-content"><h3>{$obj->product_name}</h3>
@@ -153,14 +151,13 @@ if($results) {
 	</form>
 	</li>
 EOT;
-}
-}
-$products_item .= '</ul>';
-echo $products_item;
-}
-else {
-	echo "<center><b>Meh, se pare ca n-avem asa ceva!<br>Pls, pleaca.</center></b>";
-}
+            }
+        }
+        $products_item .= '</ul>';
+        echo $products_item;
+    } else {
+        echo "<center><b>Meh, se pare ca n-avem asa ceva!<br>Pls, pleaca.</center></b>";
+    }
 }
 ?>
 <!-- Products List End -->
