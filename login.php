@@ -13,8 +13,8 @@ if(isset($_POST['submit'])) {
   else
   {
     // Define $username and $password
-    $username=$_POST['username'];
-    $password=$_POST['password'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
     // Establishing Connection with Server by passing server_name, user_id and password as a parameter
 
     if($mysql_fetch_utilizator = $mysqli->prepare("SELECT username FROM credentials WHERE username = ? AND password = ?")) {
@@ -34,10 +34,10 @@ if(isset($_POST['submit'])) {
 
     if($num_row == 1) {
       $_SESSION['login_user'] = $username; // Initializing Session
-      header("location: profile.php"); // Redirecting To Other Page
+      header("location: administrare.php"); // Redirecting To Other Page
     }
     else {
-      $error = "Username or Password is invalid";
+      $error = "Nume utilizator sau parola gresita!";
     }
   }
 }

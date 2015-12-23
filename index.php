@@ -72,7 +72,6 @@ echo '<table width="100%"  cellpadding="6" cellspacing="0">';
 echo '<tbody>';
 
 $mysql_fetch_categorii = $mysqli->prepare("SELECT category_name FROM categories WHERE 1");
-//@$mysql_fetch_categorii->bind_param('s', $new_categorie['nume_categorie']); //fix it..
 $mysql_fetch_categorii->execute();
 $mysql_fetch_categorii->bind_result($nume_categorie);
 
