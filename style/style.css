@@ -162,6 +162,15 @@ ul.shopping-cart .cart-itm .remove-itm a{
 	font-size: 1.3em;
 }
 
+.home{
+	float: left;
+	background-color: #DFDFDF;
+	padding: 5px;
+	left:auto;
+	font-family: Arial;
+	font-size: 1.3em;
+}
+
 /* todo: FIXED fix this category shit */
 .categories-front{
 	font-size: 1.0em;

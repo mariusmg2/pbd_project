@@ -3,9 +3,6 @@
 session_start(); // Starting Session
 include_once("config.php");
 
-echo '$_SESSION: ', var_dump($_SESSION);
-echo "<br>\$_GET: ", var_dump($_GET);
-
 ?>
 
 <!DOCTYPE html>
@@ -19,6 +16,7 @@ echo "<br>\$_GET: ", var_dump($_GET);
 	<body>
 
     <span class="link" id="link"><a href="logout.php"> logout </a></span>
+    <span class="home" id="home"><a href="index.php"> home </a></span>
 	<h1 align="center">Pagina administrator!</h1>
 
   <?php
@@ -34,13 +32,13 @@ echo "<br>\$_GET: ", var_dump($_GET);
               <th>Optiune</th>
               </tr></thead><tbody>';
 
-        $mysql_fetch_categorii = $mysqli->prepare("SELECT category_name FROM categories WHERE 1");
-        $mysql_fetch_categorii->execute();
-        $mysql_fetch_categorii->bind_result($nume_categorie);
+        $query = $mysqli->prepare("SELECT category_name FROM categories WHERE 1");
+        $query->execute();
+        $query->bind_result($nume_categorie);
 
         $categorii = array();
 
-        while ($mysql_fetch_categorii->fetch()) {
+        while ($query->fetch()) {
             array_push($categorii, $nume_categorie);
         }
 
@@ -54,7 +52,7 @@ echo "<br>\$_GET: ", var_dump($_GET);
             echo '<tr class="pure-table-odd">';
             echo '<td>' . ++$b . '</td>';
             echo '<td>' . $nume_categorie . '</td>';
-            echo '<td> <a href ="?sterge_categorie=' . $nume_categorie . '"> sterge </a></td>';
+            echo '<td> <a href ="?sterge_categorie=' . $nume_categorie . '"> [sterge] </a></td>';
             echo '</tr>';
         }
 
@@ -69,9 +67,9 @@ echo "<br>\$_GET: ", var_dump($_GET);
             if(!is_null($_GET['sterge_categorie'])) {
                 $categorie = $_GET['sterge_categorie'];
 
-                $mysql_fetch_categorii = $mysqli->prepare("DELETE FROM categories WHERE category_name = ?");
-                $mysql_fetch_categorii->bind_param('s', $categorie);
-                $mysql_fetch_categorii->execute();
+                $query = $mysqli->prepare("DELETE FROM categories WHERE category_name = ?");
+                $query->bind_param('s', $categorie);
+                $query->execute();
 
                 header("location: administrare.php");
 
@@ -89,7 +87,7 @@ echo "<br>\$_GET: ", var_dump($_GET);
          *  Adaugare categorie noua.
          */
 
-        echo '<br><br><br>';
+        echo '<br><br>';
         echo '<table class="pure-table"><thead><tr>
                <th>Adauga categorie noua...</th></tr></thead>
             <tbody>
@@ -106,8 +104,11 @@ echo "<br>\$_GET: ", var_dump($_GET);
             </table>';
 
         if(isset($_POST['nume_categorie']) && !empty($_POST['nume_categorie'])) {
-            // make sql query and add to db.
-            echo 'haha';
+            $query = $mysqli->prepare("INSERT INTO categories (category_name) VALUES (?)");
+            $query->bind_param('s', $_POST['nume_categorie']);
+            $query->execute();
+
+            header("location: administrare.php");
         }
 
         /*!
@@ -116,25 +117,77 @@ echo "<br>\$_GET: ", var_dump($_GET);
 
          echo '<br><br>';
 
+         $query = $mysqli->prepare("SELECT category_name FROM categories WHERE 1");
+         $query->execute();
+         $query->bind_result($nume_categorie);
+
+         $categorii = array();
+
+         while ($query->fetch()) {
+             array_push($categorii, $nume_categorie);
+         }
+
          echo '<table class="pure-table"><thead><tr>
                 <th>Selecteaza categoria de produse</th></tr></thead>
              <tbody>
                  <tr>
                      <td>
                          <form action="administrare.php" method="post">';
-                         echo '<select name="categorie">
-                                     <option value="1">First</option>
-                                     <option value="2">Second</option>
-                                     <option value="3">Third</option>
-                                </select>';
-                         echo ' <input type="submit" value="Submit the form"/>
-                               </form>';
+                         if(!empty($categorii)) {
+                             echo '<select name="categorie">';
+                                        foreach($categorii as $categorie) {
+                                            echo '<option value='.$categorie.'>'.$categorie.'</option>';
+                                        }
+                             echo '</select>
+                             <input type="submit" name="afiseaza_categorie" value="Selecteaza"/>
+                             </form>';
+                          }
                     echo '</td>
                  </tr>
              </tbody>
              </table>';
 
-    echo $_POST['categorie'];
+            if(isset($_POST['categorie'])) {
+                $query = $mysqli->prepare("SELECT product_code, product_name FROM products WHERE product_category = ?");
+                $query->bind_param('s', $_POST['categorie']);
+                $query->execute();
+                $query->bind_result($codProdus, $numeProdus);
+
+                $produse = array();
+
+                while ($query->fetch()) {
+                    $produse[$codProdus] = $numeProdus;
+                }
+
+                if(!empty($produse)) {
+                    echo '<br><br><table class="pure-table"><thead><tr>
+                          <th>#</th>
+                          <th>Cod produs</th>
+                          <th>Nume produs</th>
+                          <th>Optiune</th>
+                          </tr></thead><tbody>';
+
+                    $b = 0;
+
+                    foreach($produse as $cod => $produs) {
+                        echo '<tr class="pure-table-odd">';
+                        echo '<td>' . ++$b . '</td>';
+                        echo '<td>' . $cod . '</td>';
+                        echo '<td>' . $produs . '</td>';
+                        echo '<td> <a href ="?sterge_produs=' . $cod . '"> [sterge] </a></td>';
+                        echo '</tr>';
+                    }
+
+                    echo '</tbody></table>';
+                }
+            }
+
+            //! verificare daca s-a selectat vreun produs pentru stergere.
+            if(isset($_GET['sterge_produs']) && !empty($_GET['sterge_produs'])) {
+                $query = $mysqli->prepare("DELETE FROM products WHERE product_code = ?");
+                $query->bind_param('s', $_GET['sterge_produs']);
+                $query->execute();
+            }
     }
     else {
         echo 'Iesi';
