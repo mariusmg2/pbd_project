@@ -17,6 +17,8 @@ echo "<br>\$_GET: ", var_dump($_GET);
         <link rel="stylesheet" href="style/tables.css">
 	</head>
 	<body>
+
+    <span class="link" id="link"><a href="logout.php"> logout </a></span>
 	<h1 align="center">Pagina administrator!</h1>
 
   <?php
@@ -71,6 +73,8 @@ echo "<br>\$_GET: ", var_dump($_GET);
                 $mysql_fetch_categorii->bind_param('s', $categorie);
                 $mysql_fetch_categorii->execute();
 
+                header("location: administrare.php");
+
                 // nu merge verificarea...
                 if($mysqli->query("DELETE FROM categories WHERE category_name = $categorie")) {
                     echo 'Sters cu succes!';
@@ -102,8 +106,35 @@ echo "<br>\$_GET: ", var_dump($_GET);
             </table>';
 
         if(isset($_POST['nume_categorie']) && !empty($_POST['nume_categorie'])) {
+            // make sql query and add to db.
             echo 'haha';
         }
+
+        /*!
+         *  Stergere produse dintr-o categorie...
+         */
+
+         echo '<br><br>';
+
+         echo '<table class="pure-table"><thead><tr>
+                <th>Selecteaza categoria de produse</th></tr></thead>
+             <tbody>
+                 <tr>
+                     <td>
+                         <form action="administrare.php" method="post">';
+                         echo '<select name="categorie">
+                                     <option value="1">First</option>
+                                     <option value="2">Second</option>
+                                     <option value="3">Third</option>
+                                </select>';
+                         echo ' <input type="submit" value="Submit the form"/>
+                               </form>';
+                    echo '</td>
+                 </tr>
+             </tbody>
+             </table>';
+
+    echo $_POST['categorie'];
     }
     else {
         echo 'Iesi';

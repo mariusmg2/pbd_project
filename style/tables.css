@@ -2,6 +2,9 @@
 .pure-table {
     /* Remove spacing between table cells (from Normalize.css) */
     border-collapse: collapse;
+    width: 70%;
+    margin-left:15%;
+    margin-right:15%; 
     border-spacing: 0;
     empty-cells: show;
     border: 1px solid #cbcbcb;
