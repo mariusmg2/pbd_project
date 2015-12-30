@@ -72,6 +72,7 @@ button:hover, .button:hover{
 }
 
 .product-thumb{
+    display: block;
 	text-align:center;
 }
 .product-desc {
@@ -140,7 +141,7 @@ ul.shopping-cart .cart-itm .remove-itm a{
 	text-align: left;
 }
 .cart-view-table-front table thead, .cart-view-table-back table thead{
-	background-color: #FF7129;
+	background-color: #C61D1D;
 }
 .cart-view-table-front table tbody tr.even, .cart-view-table-back table tbody tr.even{
 	background-color: #E1E1E1;
@@ -171,21 +172,21 @@ ul.shopping-cart .cart-itm .remove-itm a{
 	font-size: 1.3em;
 }
 
-/* todo: FIXED fix this category shit */
 .categories-front{
-	font-size: 1.0em;
+	font-size: 0.9em;
+    text-transform: capitalize;
+    line-height: 1.2;
 	position: fixed;
 	float:left;
 	left:20px;
-	/*right: 1650px;*/
-	max-width: 350px;
+	max-width: 450px;
 	font-family: Arial;
 }
 
 .categories-front h3{
 	text-align: center;
 	padding: 0;
-	margin: 0px 0px 6px 0px;
+	margin: 0px 100px 0px 0px;
 }
 
 .categories-front, .cart-view-table-back {
@@ -202,14 +203,14 @@ ul.shopping-cart .cart-itm .remove-itm a{
 	text-align: left;
 }
 .categories-front table thead, .cart-view-table-back table thead{
-	background-color: #FF7129;
+	background-color: #C61D1D;
 }
 .categories-front table tbody tr.even {
-		background-color: #C61D1D;
+		background-color: #F5F5F5;
 		text-align: center;
 }
 .cart-view-table-back table tbody tr.even{
-	background-color: #E1E1E1;
+	background-color: #F5F5F5;
 }
 .categories-front table tbody tr.odd {
 	background-color: #DFDFDF;
@@ -224,4 +225,31 @@ ul.shopping-cart .cart-itm .remove-itm a{
 .categories-front button, .cart-view-table-front .button, .cart-view-table-back button, .cart-view-table-back .button{
 	margin: 10px 1px;
 	float: left;
+}
+
+
+
+.isa_info, .isa_success, .isa_warning, .isa_error {
+    margin: 1px 0px;
+    padding:12px;
+
+    max-width: 1320px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.isa_info {
+    color: #00529B;
+    background-color: #BDE5F8;
+}
+.isa_success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+.isa_warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+.isa_error {
+    color: #D8000C;
+    background-color: #FFBABA;
 }
