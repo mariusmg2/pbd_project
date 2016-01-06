@@ -115,16 +115,16 @@ $results = $mysqli->query("SELECT product_code, product_category, product_name, 
 if ($results) {
     if (isset($_GET['categorie']) and !empty($_GET['categorie'])) {
         $selected_category = $_GET['categorie'];
-        $products_item     = '<ul class="products">';
+        $products_item = '<ul class="products">';
 
-        //fetch results set as object and output HTML
+        //! fetch results set as object and output HTML
         while ($obj = $results->fetch_object()) {
             if ($selected_category == $obj->product_category || $selected_category == "all") {
                 $products_item .= <<<EOT
 	                            <li class="product">
                             	<form method="post" action="cart_update.php">
                             	<div class="product-content"><h3>{$obj->product_name}</h3>
-                            	<div class="product-thumb"><img src="images/{$obj->product_img_name}"></div>
+                            	<div class="product-thumb"><a href="produs.php?id={$obj->product_code}"><img src="images/{$obj->product_img_name}"></a></div>
                             	<div class="product-desc">{$obj->product_desc}</div>
                             	<div class="product-info">
                             	Pret {$currency}{$obj->price}<br>
@@ -162,7 +162,7 @@ EOT;
         echo $products_item;
 
     } else {
-        echo "<center><b>Meh, se pare ca n-avem asa ceva!<br>Pls, pleaca.</center></b>";
+        echo "<center><b></center></b>";
     }
 }
 

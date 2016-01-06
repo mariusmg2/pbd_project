@@ -21,7 +21,7 @@ include_once("config.php");
 if (isset($_SESSION["cart_products"])) //check session var
     {
     $total = 0; //set initial total value
-    $b     = 0; //var for zebra stripe table
+    $b = 0; //var for zebra stripe table
     foreach ($_SESSION["cart_products"] as $cart_itm) {
         //set variables to use in content below
         $product_name  = $cart_itm["product_name"];
@@ -44,9 +44,9 @@ if (isset($_SESSION["cart_products"])) //check session var
 
     $grand_total = $total + $shipping_cost; //grand total including shipping cost
     foreach ($taxes as $key => $value) { //list and calculate all taxes in array
-        $tax_amount     = round($total * ($value / 100));
+        $tax_amount = round($total * ($value / 100));
         $tax_item[$key] = $tax_amount;
-        $grand_total    = $grand_total + $tax_amount; //add tax val to grand total
+        $grand_total = $grand_total + $tax_amount; //add tax val to grand total
     }
 
     $list_tax = '';

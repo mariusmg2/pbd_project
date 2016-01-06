@@ -5,8 +5,9 @@ if (session_status() == PHP_SESSION_ACTIVE) {
 }
 
 include_once("config.php");
-include_once('login.php'); // Includes Login Script
+include_once('login.php');
 
+//! daca utilizatorul este deja logat, este redirectionat automat pe pagina de administrare.
 if(isset($_SESSION['login_user'])){
   header("location: administrare.php");
 }
